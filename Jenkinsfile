@@ -2,7 +2,7 @@ pipeline{
     agent {
         label{
         label "built-in"
-        customWorkspace "/data"
+        customWorkspace "/data/game-of-life"
         
             }
     }
@@ -20,14 +20,14 @@ pipeline{
 	    steps
 	    {
 	    sh "git clone https://github.com/kirtimete/game-of-life.git"
-            sh "cd /data/game-of-life"
+            // sh "cd /data/game-of-life"
 	}
 	    
 	}
 	stage ('build')
 	{
 	    steps {
-	        sh "mvn -f /data/game-of-life/pom.xml install"  
+	        sh "mvn clean package"  
 	        }
 	       
 	    }
