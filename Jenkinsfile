@@ -26,6 +26,12 @@ pipeline{
 	}
 	stage ('build')
 	{
+		agent {
+			label {
+			label "built-in"
+				customWorkspace "/data/game-of-life/game-of-life"
+			}
+		}
 	    steps {
 	        sh "mvn clean package"  
 	        }
