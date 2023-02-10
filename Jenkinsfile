@@ -41,23 +41,6 @@ pipeline{
 	    }
     
     
-    stage ('stage-slave') 
-    {
-        agent
-        {
-        node {
-            label 'linux-slave-1'
-            customWorkspace "/home/ec2-user"
-        } 
-        
-        }
-        steps('deploy')
-        {
-            dir ('/data/gameoflife'){
-	         sh "aws s3 cp s3://kirti1993/gameoflife.war /server/apache-tomcat-9.0.71/webapps/ --recursive"
-            }
-        }
-    }
 }
 }
 
