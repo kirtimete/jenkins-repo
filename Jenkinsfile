@@ -1,52 +1,57 @@
-pipeline{
+pipeline {
     agent {
-        label{
+        label {
         label "built-in"
-        customWorkspace "/data/game-of-life"
-        
-            }
+        customWorkspace '/data/project'
+        }
     }
-    
-    stages{
-        stage ('git rm')
-	{
-	steps
-	{
-            sh "rm -rf *"
-	}
-	}
-	stage ('git clone')
-	{
-	    steps
-	    {
-	    sh "git clone https://github.com/kirtimete/game-of-life.git"
-            // sh "cd /data/game-of-life"
-	}
-	    
-	}
-	stage ('build')
-	{
+    stages {
+        stage ("clone") {
+            steps {
+                sh "cd /data/project"
+                sh "rm -rf game-of-life"
+                sh "git clone https://github.com/kirtimete/game-of-life.git"
+            }
+        }
+        stage ("maven") {
+            steps {
+			dir ("/data/project/game-of-life") {
+              		sh "mvn clean package"		
+			
+			dir ("gameoflife-web/target") {
+                        sh "aws s3 cp gameoflife.war s3://kirti1993"
+               	}
+           	 	}
+        	}
+        }		
+        stage ("deploy") {
 		agent {
-			label {
-			label "built-in"
-				customWorkspace "/data/game-of-life/game-of-life"
-			}
-		}
-	    steps {
-	        sh "mvn clean package"  
-	        }
-	       
-	    }
-	    stage ('cp')
-	{
-	    steps {
-	       sh "cp -r  /data/game-of-life/gameoflife-web/target/gameoflife.war /server/apache-tomcat-9.0.71/webapps"
-	       sh "aws s3 cp /data/game-of-life/gameoflife-web/target/gameoflife.war s3://kirti1993"
-	        }
-	       
-	    }
-    
-    
-}
-}
+                label {
+                    label "linux"
+                }
+            }
+            
+            steps {
+		        sh "aws s3 cp s3://kirti1993/gameoflife.war /mnt"
+		//sh "docker build -t kirtimete/tomcat ."
+		//sh "docker run -dp 8080:8080 kirti"
+		//sh "docker push kirtimete/tomcat"
+              sh "docker run -d -p 8080:8080 -v /mnt:/usr/local/tomcat/webapps tomcat:9.0.71"   ----directly run container 
+		    
+        	}
+        }
 
+	stage ("deploy-on-slave-2") {
+		agent {
+                label {
+                    label "linux-2"
+                }
+            }
+            
+            steps {
+		         
+		    
+        	}
+        }
+    }
+}
