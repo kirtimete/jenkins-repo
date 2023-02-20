@@ -34,8 +34,9 @@ pipeline {
             steps {
 		        sh "aws s3 cp s3://kirti1993/gameoflife.war /mnt/war"
 		    dir ("/mnt"){
-		sh "docker build -t kirtimete/tomcat ."
-		sh "docker run -dp 8080:8080 kirti"
+			    sh "docker-compose up"
+		//sh "docker build -t kirtimete/tomcat ."
+		//sh "docker run -dp 8080:8080 kirti"
 		//sh "docker push kirtimete/tomcat"
               //sh "docker run -d -p 8080:8080 -v /mnt:/usr/local/tomcat/webapps tomcat:9.0.71"   ----directly run container 
 		    }
