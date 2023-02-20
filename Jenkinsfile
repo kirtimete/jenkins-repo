@@ -32,26 +32,15 @@ pipeline {
             }
             
             steps {
-		        sh "aws s3 cp s3://kirti1993/gameoflife.war /mnt"
+		        sh "aws s3 cp s3://kirti1993/gameoflife.war /mnt/war"
 		//sh "docker build -t kirtimete/tomcat ."
 		//sh "docker run -dp 8080:8080 kirti"
 		//sh "docker push kirtimete/tomcat"
-              sh "docker run -d -p 8080:8080 -v /mnt:/usr/local/tomcat/webapps tomcat:9.0.71"   ----directly run container 
+              //sh "docker run -d -p 8080:8080 -v /mnt:/usr/local/tomcat/webapps tomcat:9.0.71"   ----directly run container 
 		    
         	}
         }
 
-	stage ("deploy-on-slave-2") {
-		agent {
-                label {
-                    label "linux-2"
-                }
-            }
-            
-            steps {
-		         
-		    
-        	}
-        }
+	
     }
 }
