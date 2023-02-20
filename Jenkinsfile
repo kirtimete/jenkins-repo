@@ -26,10 +26,11 @@ pipeline {
         }	
 	    stage ("deploy") {
 		    steps {
+			    sh "rm -rf Docker-repository"
 			    sh "git clone https://github.com/kirtimete/Docker-repository.git"
 			 
 			    sh "cd /data/project/Docker-repository"
-			    sh "rm -rf *"
+			    
 	    	  // sh "cp /data/project/game-of-life/gameoflife-web/target/gameoflife.war /mnt/war"
 		  // dir ("/mnt"){
 		  sh "docker-compose up -d"
