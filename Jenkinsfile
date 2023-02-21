@@ -29,12 +29,15 @@ pipeline {
 			    sh "rm -rf Docker-repository"
 			    sh "git clone https://github.com/kirtimete/Docker-repository.git"
 			 
-			    sh "cd /data/project/Docker-repository"
+			    dir ("/data/project/Docker-repository")
 			    
 	    	  // sh "cp /data/project/game-of-life/gameoflife-web/target/gameoflife.war /mnt/war"
-		  // dir ("/mnt"){
-			    {  sh "docker-compose up -d" }
-		//  }
+		  // dir ("/mnt")
+			    {
+			  
+				    sh "docker-compose up -d" 
+			    }
+		 // }
 	    }
 	    }
      //   stage ("deploy") {
