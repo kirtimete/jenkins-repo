@@ -33,7 +33,7 @@ pipeline {
 			    
 	    	  // sh "cp /data/project/game-of-life/gameoflife-web/target/gameoflife.war /mnt/war"
 		  // dir ("/mnt"){
-		  sh "docker-compose up -d"
+			    {  sh "docker-compose up -d" }
 		//  }
 	    }
 	    }
